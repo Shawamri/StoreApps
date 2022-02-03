@@ -2,8 +2,8 @@ import time
 from selenium import webdriver
 #from google_play_scraper import app
 from selenium.webdriver.common.by import By
-from googleAppScraper import PlayAppScraper
-from chromeOptions import set_chrome_options
+from main.googleAppScraper import PlayAppScraper
+from main.chromeOptions import set_chrome_options
 
 
 class GoogleScraper:

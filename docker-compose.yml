@@ -32,5 +32,4 @@ services:
 networks:
   mhealthatlas-backend-network:
     driver: bridge
-  elastic-stack-network:
-    driver: bridge
+    

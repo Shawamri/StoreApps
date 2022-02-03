@@ -4,8 +4,8 @@ import psycopg2
 import pandas as pd
 from psycopg2.extras import LoggingConnection
 from zmq import NULL
-from appleStoreScraper import AppleScraper
-from playStoreScraper import GoogleScraper
+from main.appleStoreScraper import AppleScraper
+from main.playStoreScraper import GoogleScraper
 logger = logging.getLogger(__name__)
 logger.setLevel(level=logging.DEBUG)
 handler = logging.StreamHandler()
@@ -37,6 +37,9 @@ def initConn() -> any:
     return conn
   
 def storeApps():
+    #init a connection
+      conn = initConn()
+      cur = conn.cursor()
     #load the apps(android ,ios)
       android_apps = []
       ios_apps = []
@@ -50,9 +53,7 @@ def storeApps():
       google_fitness = GoogleScraper()
       android_apps += google_fitness.main("https://play.google.com/store/search?q=HEALTH_AND_FITNESS&c=apps")
     
-    #init a connection
-      conn = initConn()
-      cur = conn.cursor()
+
 #start  inserting the apps data into the right (table)
 #################andoid  app#########################
       android_app_query = "insert into android_app VALUES  "

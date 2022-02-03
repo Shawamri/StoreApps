@@ -2,8 +2,8 @@ import time
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from appleAppScraper import Scraper
-from chromeOptions import set_chrome_options
+from main.appleAppScraper import Scraper
+from main.chromeOptions import set_chrome_options
 
 
 
