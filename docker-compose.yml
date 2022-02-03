@@ -1,0 +1,31 @@
+version: '3'
+services:
+ store-apps-service:
+    build: ./StoreApps/
+    hostname: store-apps-service
+    labels:
+      collect_logs_with_filebeat: "false"
+      decode_log_event_to_json_object: "false"
+    env_file:
+      - ./StoreApps/.env
+    networks:
+      - mhealthatlas-backend-network
+    depends_on:
+      - postgres-store-apps-db
+      
+ postgres-store-apps-db:
+    image: postgres:12.3-alpine
+    container_name: store-apps-db
+    labels:
+      collect_postgresql_logs_with_filebeat: "true"
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_STORE_APPS_DB_PW}
+      - POSTGRES_DB=storeApps
+    ports:
+    # don't expose ports in production
+      - "5501:5432"
+    networks:
+      - mhealthatlas-backend-network
+    volumes:
+      - ./Database/scripts/initStoreAppsDB.sql:/docker-entrypoint-initdb.d/init.sql
+      
