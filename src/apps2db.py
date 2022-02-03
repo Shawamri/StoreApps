@@ -59,8 +59,8 @@ def storeApps():
         for (i,app) in enumerate(android_apps):
           android_app_query   +="\n(%s,%s,%s,%s,%s,%s,%s),\n"%(i,"\'"+app["StoreID"].replace("\'","\"")+"\'","\'"+app["App Title"].replace("\'","\"")+"\'","\'"+app["Description"].replace("\'","\"")+"\'","\'"+app["Icon"].replace("\'","\"")+"\'","\'"+app["Developer"].replace("\'","\"")+"\'",app["Price"])
         cur.execute(android_app_query [ :-2]+";",)
-    else:
-       android_app_query   +="(%s,%s,%s,%s,%s,%s,%s);"%(i,"\'"+app["StoreID"].replace("\'","\"")+"\'","\'"+app["App Title"].replace("\'","\"")+"\'","\'"+app["Description"].replace("\'","\"")+"\'","\'"+app["Icon"].replace("\'","\"")+"\'","\'"+app["Developer"].replace("\'","\"")+"\'",app["Price"])
+      else:
+        android_app_query   +="(%s,%s,%s,%s,%s,%s,%s);"%(i,"\'"+app["StoreID"].replace("\'","\"")+"\'","\'"+app["App Title"].replace("\'","\"")+"\'","\'"+app["Description"].replace("\'","\"")+"\'","\'"+app["Icon"].replace("\'","\"")+"\'","\'"+app["Developer"].replace("\'","\"")+"\'",app["Price"])
         cur.execute(android_app_query,)
 
 
@@ -81,8 +81,8 @@ def storeApps():
         for (i,app) in enumerate(ios_apps):
           ios_app_query   +="\n(%s,%s,%s,%s,%s,%s,%s),\n"%(i,"\'"+app["StoreID"].replace("\'","\"")+"\'","\'"+app["App Title"].replace("\'","\"")+"\'","\'"+app["Description"].replace("\'","\"")+"\'","\'"+app["Icon"].replace("\'","\"")+"\'","\'"+app["Developer"].replace("\'","\"")+"\'",app["Price"])
         cur.execute(ios_app_query [ :-2]+";")
-    else:
-      ios_app_query   +="(%s,%s,%s,%s,%s,%s,%s);"%(i,"\'"+app["StoreID"].replace("\'","\"")+"\'","\'"+app["App Title"].replace("\'","\"")+"\'","\'"+app["Description"].replace("\'","\"")+"\'","\'"+app["Icon"].replace("\'","\"")+"\'","\'"+app["Developer"].replace("\'","\"")+"\'",app["Price"])
+      else:
+        ios_app_query   +="(%s,%s,%s,%s,%s,%s,%s);"%(i,"\'"+app["StoreID"].replace("\'","\"")+"\'","\'"+app["App Title"].replace("\'","\"")+"\'","\'"+app["Description"].replace("\'","\"")+"\'","\'"+app["Icon"].replace("\'","\"")+"\'","\'"+app["Developer"].replace("\'","\"")+"\'",app["Price"])
         cur.execute(ios_app_query,)
 
 #####################ios app version##################

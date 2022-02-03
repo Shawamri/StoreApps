@@ -1,13 +1,13 @@
 version: '3'
 services:
  store-apps-service:
-    build: ./StoreApps/
+    build: ./src/
     hostname: store-apps-service
     labels:
       collect_logs_with_filebeat: "false"
       decode_log_event_to_json_object: "false"
     env_file:
-      - ./StoreApps/.env
+      - ./.env
     networks:
       - mhealthatlas-backend-network
     depends_on:
@@ -17,7 +17,7 @@ services:
     image: postgres:12.3-alpine
     container_name: store-apps-db
     labels:
-      collect_postgresql_logs_with_filebeat: "true"
+      collect_postgresql_logs_with_filebeat: "false"
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_STORE_APPS_DB_PW}
       - POSTGRES_DB=storeApps
@@ -27,5 +27,10 @@ services:
     networks:
       - mhealthatlas-backend-network
     volumes:
-      - ./Database/scripts/initStoreAppsDB.sql:/docker-entrypoint-initdb.d/init.sql
-      
+      - ./Database/initStoreAppsDB.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./Database/initOutboxSettings.sh:/docker-entrypoint-initdb.d/init.sh
+networks:
+  mhealthatlas-backend-network:
+    driver: bridge
+  elastic-stack-network:
+    driver: bridge
