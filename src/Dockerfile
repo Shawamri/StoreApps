@@ -4,6 +4,7 @@ FROM python:3.8
 
 COPY . /app
 WORKDIR /app
+
 # Adding trusting keys to apt for repositories
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
 # Adding Google Chrome to the repositories
@@ -21,11 +22,7 @@ RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`cu
 RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
 # Set display port as an environment variable
 ENV DISPLAY=:99
-###
-#FROM python:3.8-slim
-#RUN apt-get update \
-#    && apt-get -y install libpq-dev gcc \
-#    && pip install psycopg2
+
 # Keeps Python from generating .pyc files in the container
 ENV PYTHONDONTWRITEBYTECODE=1
 
@@ -38,9 +35,11 @@ COPY requirements.txt .
 RUN python -m pip install -r requirements.txt
 
 
+
+
 COPY ./wait-for-it.sh .
 
-RUN ["chmod", "+x", "src/wait-for-it.sh"]
+RUN ["chmod", "+x", "./wait-for-it.sh"]
 
 
 
@@ -50,4 +49,4 @@ RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /
 USER appuser
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
-CMD ["python", "src/main/apps2db.py",";","Database/initStoreAppsDB.sql"]
+CMD ["./wait-for-it.sh", "store-apps-db:5432","--","-t","120","--","python", "src/main/apps2db.py"]
