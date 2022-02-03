@@ -49,4 +49,4 @@ RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /
 USER appuser
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
-CMD ["./wait-for-it.sh", "store-apps-db:5432","--","-t","120","--","python", "src/main/apps2db.py"]
+CMD ["./wait-for-it.sh", "store-apps-db:5432", "--","python", "./apps2db.py"]
