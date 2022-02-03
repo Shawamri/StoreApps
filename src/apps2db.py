@@ -3,6 +3,7 @@ import os
 import psycopg2
 import pandas as pd
 from psycopg2.extras import LoggingConnection
+from zmq import NULL
 from appleStoreScraper import AppleScraper
 from playStoreScraper import GoogleScraper
 logger = logging.getLogger(__name__)
@@ -60,7 +61,7 @@ def storeApps():
           android_app_query   +="\n(%s,%s,%s,%s,%s,%s,%s),\n"%(i,"\'"+app["StoreID"].replace("\'","\"")+"\'","\'"+app["App Title"].replace("\'","\"")+"\'","\'"+app["Description"].replace("\'","\"")+"\'","\'"+app["Icon"].replace("\'","\"")+"\'","\'"+app["Developer"].replace("\'","\"")+"\'",app["Price"])
         cur.execute(android_app_query [ :-2]+";",)
       else:
-        android_app_query   +="(%s,%s,%s,%s,%s,%s,%s);"%(i,"\'"+app["StoreID"].replace("\'","\"")+"\'","\'"+app["App Title"].replace("\'","\"")+"\'","\'"+app["Description"].replace("\'","\"")+"\'","\'"+app["Icon"].replace("\'","\"")+"\'","\'"+app["Developer"].replace("\'","\"")+"\'",app["Price"])
+        android_app_query   +="(%s,%s,%s,%s,%s,%s,%s);\n"%(0,"\'"+android_apps[0]["StoreID"].replace("\'","\"")+"\'","\'"+android_apps[0]["App Title"].replace("\'","\"")+"\'","\'"+android_apps[0]["Description"].replace("\'","\"")+"\'","\'"+android_apps[0]["Icon"].replace("\'","\"")+"\'","\'"+android_apps[0]["Developer"].replace("\'","\"")+"\'",android_apps[0]["Price"])
         cur.execute(android_app_query,)
 
 
@@ -71,7 +72,7 @@ def storeApps():
           android_version_query   +="\n(%s,%s,%s,%s,%s,%s,%s),\n"%(i+1,"\'"+app["Version"].replace("\'",NULL,"\"")+"\'",app["review_count"],app["Released"],"\'"+app["recent_changes"].replace("\'","\"")+"\'",NULL,True,i)
         cur.execute(android_version_query [ :-2]+";",)
       else:
-        android_version_query   +="(%s,%s,%s,%s,%s,%s,%s);"%(i+1,"\'"+app["Version"].replace("\'",NULL,"\"")+"\'",app["review_count"],app["Released"],"\'"+app["recent_changes"].replace("\'","\"")+"\'",NULL,True,i)
+        android_version_query   +="(%s,%s,%s,%s,%s,%s,%s);"%(1,"\'"+android_apps[0]["Version"].replace("\'",NULL,"\"")+"\'",android_apps[0]["review_count"],android_apps[0]["Released"],"\'"+android_apps[0]["recent_changes"].replace("\'","\"")+"\'",NULL,True,0)
         cur.execute(android_version_query,)
 
 
@@ -82,7 +83,7 @@ def storeApps():
           ios_app_query   +="\n(%s,%s,%s,%s,%s,%s,%s),\n"%(i,"\'"+app["StoreID"].replace("\'","\"")+"\'","\'"+app["App Title"].replace("\'","\"")+"\'","\'"+app["Description"].replace("\'","\"")+"\'","\'"+app["Icon"].replace("\'","\"")+"\'","\'"+app["Developer"].replace("\'","\"")+"\'",app["Price"])
         cur.execute(ios_app_query [ :-2]+";")
       else:
-        ios_app_query   +="(%s,%s,%s,%s,%s,%s,%s);"%(i,"\'"+app["StoreID"].replace("\'","\"")+"\'","\'"+app["App Title"].replace("\'","\"")+"\'","\'"+app["Description"].replace("\'","\"")+"\'","\'"+app["Icon"].replace("\'","\"")+"\'","\'"+app["Developer"].replace("\'","\"")+"\'",app["Price"])
+        ios_app_query   +="(%s,%s,%s,%s,%s,%s,%s);"%(0,"\'"+ios_apps[0]["StoreID"].replace("\'","\"")+"\'","\'"+ios_apps[0]["App Title"].replace("\'","\"")+"\'","\'"+ios_apps[0]["Description"].replace("\'","\"")+"\'","\'"+ios_apps[0]["Icon"].replace("\'","\"")+"\'","\'"+ios_apps[0]["Developer"].replace("\'","\"")+"\'",ios_apps[0]["Price"])
         cur.execute(ios_app_query,)
 
 #####################ios app version##################
@@ -92,7 +93,7 @@ def storeApps():
           ios_version_query   +="\n(%s,%s,%s,%s,%s,%s,%s),\n"%(i+1,"\'"+app["Version"].replace("\'","\"")+"\'",app["review_count"],app["Released"],"\'"+app["recent_changes"].replace("\'","\"")+"\'",True,i)
         cur.execute(ios_version_query [ :-2]+";",)
       else:
-        ios_version_query   +="(%s,%s,%s,%s,%s,%s,%s);"%(i+1,"\'"+app["Version"].replace("\'","\"")+"\'",app["review_count"],app["Released"],"\'"+app["recent_changes"].replace("\'","\"")+"\'",True,i)
+        ios_version_query   +="(%s,%s,%s,%s,%s,%s,%s);"%(1,"\'"+ios_apps[0]["Version"].replace("\'","\"")+"\'",ios_apps[0]["review_count"],ios_apps[0]["Released"],"\'"+ios_apps[0]["recent_changes"].replace("\'","\"")+"\'",True,0)
         cur.execute(ios_version_query,)
    #commit
       conn.commit()
